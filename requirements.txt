@@ -1,0 +1,9 @@
+torch
+transformers
+depthai==2.30.0.0
+fonttools==4.58.2
+kiwisolver==1.4.8
+numpy==2.2.6
+opencv-python==4.11.0.86
+packaging==25.0
+pillow==11.2.1
