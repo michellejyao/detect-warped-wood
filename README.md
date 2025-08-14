@@ -28,6 +28,104 @@ Wood_QA/
 
 ---
 
+### Example end-to-end run (outputs)
+
+Below is one example pass through the full pipeline so visitors can see what each step produces. All images and files referenced below live in this repository after running the scripts once.
+
+#### 1) cam_output.py → RGB and depth
+
+Generated files:
+- `rgb_image.png`
+- `depth_map.png`
+
+Images:
+
+![RGB image](rgb_image.png)
+
+![Depth map](depth_map.png)
+
+#### 2) extract_wood.py → Masked panel
+
+Inputs:
+- `rgb_image.png` and `depth_map.png` from step 1
+- Reference: `wood_reference.png`
+
+Outputs:
+- `wood_panel_mask.png`
+- `wood_panel_depth_map.png`
+
+Images:
+
+![Reference wood image](wood_reference.png)
+
+![Wood panel mask](wood_panel_mask.png)
+
+![Masked depth map](wood_panel_depth_map.png)
+
+#### 3) depth_to_cloud.py → Point cloud (PLY)
+
+Input: `wood_panel_depth_map.png`
+
+Output: `point_cloud.ply`
+
+- Uses OAK‑D Lite intrinsics in `src/depth_to_cloud.py` to lift pixels to 3D.
+- The PLY is ASCII and viewable in many 3D tools (e.g., MeshLab, CloudCompare).
+
+Preview of `point_cloud.ply` content (header + a few points):
+
+```text
+ply
+format ascii 1.0
+element vertex 123456  # example count
+property float x
+property float y
+property float z
+end_header
+0.012 0.034 0.567
+0.013 0.035 0.568
+0.014 0.036 0.569
+...
+```
+
+You can download/open the generated PLY after running step 3: [point_cloud.ply](point_cloud.ply).
+
+#### 4) deviation.py → Flatness assessment
+
+Input: `point_cloud.ply`
+
+Outputs:
+- `deviations.txt` — per‑point vertical deviations from the best‑fit plane
+- Console result indicating whether the panel is FLAT or WARPED
+
+Example console output:
+
+```text
+Fitted plane: z = 0.000123*x + -0.000045*y + 0.012345
+Standard deviation of vertical deviations: 0.003200 meters
+Wood panel is FLAT (std dev <= 0.005)
+```
+
+`deviations.txt` is a long list of floating‑point values (meters). Here’s a truncated preview so you know what’s inside without scrolling a huge file:
+
+<details>
+  <summary>View sample of deviations.txt</summary>
+
+```text
+-0.00123
+-0.00098
+-0.00105
+ 0.00012
+ 0.00034
+ 0.00008
+ ...
+ (thousands of lines omitted)
+```
+
+Open the full file here after running: [deviations.txt](deviations.txt).
+</details>
+
+---
+
 ## Hardware requirements
 - **Luxonis OAK‑D Lite** (USB‑C)
 - **Raspberry Pi 5** (4GB or 8GB recommended) with Raspberry Pi OS 64‑bit (Bookworm or newer)
@@ -120,7 +218,7 @@ Notes:
 - If you need multiple frames or a live preview, consider adapting `src/cam_output.py` accordingly.
 
 ### 2) Segment the wood panel and mask the depth map
-Prepare a reference image of the wood panel (any representative photo) and place it in the project root as `wood_reference.jpg`.
+Prepare a reference image of the wood panel (any representative photo) and place it in the project root as `wood_reference.png`.
 ```bash
 python src/extract_wood.py
 ```
@@ -144,14 +242,14 @@ Camera intrinsics:
 - You can retrieve calibration from DepthAI (e.g., via `dai.Device().readCalibration()`) and set `fx`, `fy`, `cx`, `cy` accordingly.
 - Ensure the depth scale matches the units (e.g., `DEPTH_SCALE = 0.001` if your depth is in millimeters).
 
----
+
 
 ## Common issues and troubleshooting
 - **No device found / permission denied (Linux/RPi)**: Ensure udev rules are installed and you’re in the `plugdev` group. Reboot after changes.
 - **PyTorch install on Raspberry Pi**: If installation is slow or fails, try a prebuilt wheel for your Pi OS version. CPU inference will be slower but acceptable for testing.
 - **Black/empty depth**: Make sure stereo depth is enabled and the camera has texture/lighting. Verify with `depthai cam_test`.
 - **Wrong scale/units in point cloud**: Confirm the depth scale and camera intrinsics in `src/depth_to_cloud.py`.
-- **Reference image mismatch**: Ensure `wood_reference.jpg` depicts the target panel class; otherwise segmentation may be poor.
+- **Reference image mismatch**: Ensure `wood_reference.png` depicts the target panel class; otherwise segmentation may be poor.
 
 ---
 
@@ -167,7 +265,7 @@ Camera intrinsics:
 - **Env**: Python 3.10+, venv activated, dependencies installed
 - **Run**:
   1. `python src/cam_output.py`
-  2. Put `wood_reference.jpg` in repo root
+  2. Put `wood_reference.png` in repo root
   3. `python src/extract_wood.py`
   4. `python src/depth_to_cloud.py`
 
