@@ -28,7 +28,7 @@ Wood_QA/
 
 ---
 
-### Example end-to-end run (outputs)
+## Example end-to-end run (outputs)
 
 Below is one example pass through the full pipeline so visitors can see what each step produces. All images and files referenced below live in this repository after running the scripts once.
 
@@ -55,9 +55,10 @@ Outputs:
 - `wood_panel_depth_map.png`
 
 Images:
-
+Input Wood Reference Image
 ![Reference wood image](wood_reference.png)
 
+Output Images
 ![Wood panel mask](wood_panel_mask.png)
 
 ![Masked depth map](wood_panel_depth_map.png)
@@ -111,12 +112,12 @@ Wood panel is FLAT (std dev <= 0.005)
   <summary>View sample of deviations.txt</summary>
 
 ```text
--0.00123
--0.00098
--0.00105
- 0.00012
- 0.00034
- 0.00008
+-2.574865008443011881e-03
+-2.571690188092248981e-03
+-2.568515367741486081e-03
+-2.565340547390723182e-03
+-2.558990906689197382e-03
+-2.555816086338434483e-03
  ...
  (thousands of lines omitted)
 ```
