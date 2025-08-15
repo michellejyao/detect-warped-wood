@@ -48,7 +48,7 @@ Images:
 
 Inputs:
 - `rgb_image.png` and `depth_map.png` from step 1
-- Reference: `wood_reference.png`
+- Reference picture: `rgb_image.png` (for best segmentation results)
 
 Outputs:
 - `wood_panel_mask.png`
@@ -56,7 +56,7 @@ Outputs:
 
 Images:
 Input Wood Reference Image
-![Reference wood image](wood_reference.png)
+![Reference wood image](rgb_image.png)
 
 Output Images
 ![Wood panel mask](wood_panel_mask.png)
@@ -220,6 +220,8 @@ Notes:
 
 ### 2) Segment the wood panel and mask the depth map
 Prepare a reference image of the wood panel (any representative photo) and place it in the project root as `wood_reference.png`.
+
+New change: The RGB image (`rgb_image.png`) taken by the OAK-D Lite Camera is used as the reference image for the CLIPSeg model.
 ```bash
 python src/extract_wood.py
 ```
@@ -227,9 +229,8 @@ Outputs:
 - `wood_panel_mask.png` — binary mask of the segmented panel
 - `wood_panel_depth_map.png` — depth map masked to the panel region
 
-Tips:
-- If your reference image has a different file name, edit the `reference_image_path` in `src/extract_wood.py`.
-- CLIPSeg runs on CPU by default; on Raspberry Pi this can take time. For best speed, use a desktop or reduce image size.
+Note:
+- CLIPSeg runs on CPU by default; on Raspberry Pi this could take time.
 
 ### 3) Export a 3D point cloud (PLY)
 ```bash
