@@ -276,4 +276,3 @@ Camera intrinsics:
 ## Acknowledgments
 - Built with the **Luxonis DepthAI** stack and tested with **OAK‑D Lite**
 - Target platform: **Raspberry Pi 5**
-
