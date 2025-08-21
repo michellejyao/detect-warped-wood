@@ -1,4 +1,4 @@
-## Wood Warping Detection System with OAK‑D Lite and Raspberry Pi 5
+## Wood Warping Detection System with OAK‑D Lite 3D Camera and Raspberry Pi 5
 
 Wood_QA captures RGB and depth from a Luxonis OAK‑D Lite, segments the wood panel from the RGB image, masks the depth map, and exports a 3D point cloud for downstream quality analysis.
 
