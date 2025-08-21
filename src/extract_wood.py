@@ -9,8 +9,11 @@ rgb_image_path = "rgb_image.png"
 rgb_image = Image.open(rgb_image_path).convert("RGB")
 
 # Load the reference image of a wood panel
-reference_image_path = "wood_reference.jpg"
+reference_image_path = "rgb_image.png"
 reference_image = Image.open(reference_image_path).convert("RGB")
+
+# OR use TEXT PROMPT instead of image reference
+text_prompt = "long, brown wood panel"
 
 # Load CLIPSeg model and processor
 processor = CLIPSegProcessor.from_pretrained("CIDAS/clipseg-rd64-refined")
@@ -19,6 +22,7 @@ model = CLIPSegForImageSegmentation.from_pretrained("CIDAS/clipseg-rd64-refined"
 # Prepare inputs for visual prompting (reference image as prompt)
 encoded_image = processor(images=[rgb_image], return_tensors="pt")
 encoded_prompt = processor(images=[reference_image], return_tensors="pt")
+encoded_text_prompt = processor(text=[text_prompt], return_tensors="pt")
 
 # Run inference
 with torch.no_grad():

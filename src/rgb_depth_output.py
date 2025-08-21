@@ -73,12 +73,12 @@ def create_camera_pipeline(dai):
         right_cam.setBoardSocket(dai.CameraBoardSocket.RIGHT)
         right_cam.setResolution(dai.MonoCameraProperties.SensorResolution.THE_400_P)
         
-        # Create stereo depth node
-        stereo = pipeline.create(dai.node.StereoDepth)
-        stereo.setDefaultProfilePreset(dai.node.StereoDepth.PresetMode.HIGH_DENSITY)
-        stereo.setLeftRightCheck(True)
-        stereo.setExtendedDisparity(True)
-        stereo.setSubpixel(True)
+        stereo = pipeline.create(dai.node.StereoDepth) # Create stereo depth node
+        stereo.setDefaultProfilePreset(dai.node.StereoDepth.PresetMode.HIGH_DENSITY) # Sets the quality profile for depth calculation. HIGH_DENSITY prioritizes depth resolution over speed
+        stereo.setLeftRightCheck(True) # Enables left-right consistency check
+        stereo.setExtendedDisparity(True) # Extends the search range to handle objects closer to the camera
+        stereo.setSubpixel(True) # Enables subpixel (non-integer pixel value) accuracy for depth calculation. 
+        # stereo.setDepthAlign(dai.CameraBoardSocket.RGB)
         
         # Create output nodes
         rgb_out = pipeline.create(dai.node.XLinkOut)
