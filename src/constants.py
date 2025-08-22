@@ -33,10 +33,20 @@ SEGMENTATION_THRESHOLD = 0.5  # Threshold for binary mask (0.0 to 1.0)
 # Deviation analysis configuration
 DEVIATION_THRESHOLD = 0.005  # meters - threshold for determining if wood is warped
 
+# Camera socket mapping (new naming convention)
+CAMERA_SOCKETS = {
+    'rgb': 'CAM_A',     # RGB camera socket
+    'left': 'CAM_B',    # Left mono camera socket  
+    'right': 'CAM_C',   # Right mono camera socket
+}
+
 # Camera resolution settings
 CAMERA_RESOLUTION = {
     'rgb': 'THE_1080_P',      # RGB camera resolution
-    'mono': 'THE_400_P',      # Mono camera resolution for depth
+    'mono': 'THE_400_P',      # Mono camera resolution for depth. Using 400P because it's faster for data processing and resolution is good
+    # Alternative options:
+    # 'mono': 'THE_800_P',    # Higher resolution, slower processing
+    # 'mono': 'THE_720_P',    # Alternative high resolution
 }
 
 # Stereo depth configuration

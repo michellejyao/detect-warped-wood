@@ -27,18 +27,18 @@ def create_camera_pipeline(dai):
         
         # Create RGB camera node, adding color camera properties
        rgb_cam = pipeline.create(dai.node.ColorCamera)
-       rgb_cam.setBoardSocket(dai.CameraBoardSocket.RGB)
+       rgb_cam.setBoardSocket(dai.CameraBoardSocket.CAM_A)  # RGB camera
        rgb_cam.setResolution(dai.ColorCameraProperties.SensorResolution.THE_1080_P)
        rgb_cam.setColorOrder(dai.ColorCameraProperties.ColorOrder.BGR)
        rgb_cam.setInterleaved(False)
       
        # Create stereo depth nodes
        left_cam = pipeline.create(dai.node.MonoCamera)
-       left_cam.setBoardSocket(dai.CameraBoardSocket.LEFT)
+       left_cam.setBoardSocket(dai.CameraBoardSocket.CAM_B)  # Left mono camera
        left_cam.setResolution(dai.MonoCameraProperties.SensorResolution.THE_400_P)
       
        right_cam = pipeline.create(dai.node.MonoCamera)
-       right_cam.setBoardSocket(dai.CameraBoardSocket.RIGHT)
+       right_cam.setBoardSocket(dai.CameraBoardSocket.CAM_C)  # Right mono camera
        right_cam.setResolution(dai.MonoCameraProperties.SensorResolution.THE_400_P)
       
        stereo = pipeline.create(dai.node.StereoDepth) # Create stereo depth node
@@ -46,7 +46,7 @@ def create_camera_pipeline(dai):
        stereo.setLeftRightCheck(True) # Enables left-right consistency check
        stereo.setExtendedDisparity(True) # Extends the search range to handle objects closer to the camera
        stereo.setSubpixel(True) # Enables subpixel (non-integer pixel value) accuracy for depth calculation.
-       # stereo.setDepthAlign(dai.CameraBoardSocket.RGB)
+       # stereo.setDepthAlign(dai.CameraBoardSocket.CAM_A)  # RGB camera
       
        # Create output nodes
        rgb_out = pipeline.create(dai.node.XLinkOut)
