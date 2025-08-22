@@ -90,9 +90,13 @@ def get_pixel_intrinsics():
                 dai.MonoCameraProperties.SensorResolution.THE_400_P
             )
             
-            # Method 2: Try to convert normalized to pixel
-            # If intrinsics are normalized, we need to multiply by image dimensions
-            width, height = 640, 400  # 400P resolution
+            # Method 2: Get the actual resolution from camera
+            resolution = calib_data.getCameraResolution(
+                dai.CameraBoardSocket.LEFT, 
+                dai.MonoCameraProperties.SensorResolution.THE_400_P
+            )
+            width, height = resolution
+            print(f"Camera reports resolution: {width}x{height}")
             
             print(f"Image dimensions: {width}x{height}")
             print(f"Raw intrinsics fx: {intrinsics[0][0]:.6f}")
