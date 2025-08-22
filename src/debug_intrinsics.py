@@ -19,11 +19,11 @@ def debug_camera_intrinsics():
             
             print("\n=== Camera Information ===")
             
-            # Check available cameras
+            # Check available cameras (using newer naming convention)
             cameras = [
-                dai.CameraBoardSocket.LEFT,
-                dai.CameraBoardSocket.RIGHT,
-                dai.CameraBoardSocket.RGB
+                dai.CameraBoardSocket.CAM_B,  # Left mono camera
+                dai.CameraBoardSocket.CAM_C,  # Right mono camera
+                dai.CameraBoardSocket.CAM_A   # RGB camera
             ]
             
             resolutions = [
@@ -36,11 +36,7 @@ def debug_camera_intrinsics():
                 print(f"\nCamera: {camera}")
                 for resolution in resolutions:
                     try:
-                        # Get resolution
-                        res = calib_data.getCameraResolution(camera, resolution)
-                        print(f"  Resolution {resolution}: {res}")
-                        
-                        # Get intrinsics
+                        # Get intrinsics (skip resolution check for now)
                         intrinsics = calib_data.getCameraIntrinsics(camera, resolution)
                         print(f"  Intrinsics {resolution}:")
                         print(f"    fx: {intrinsics[0][0]:.6f}")
@@ -61,8 +57,8 @@ def debug_camera_intrinsics():
             print("\n=== Extrinsics ===")
             try:
                 extrinsics = calib_data.getCameraExtrinsics(
-                    dai.CameraBoardSocket.LEFT, 
-                    dai.CameraBoardSocket.RGB
+                    dai.CameraBoardSocket.CAM_B,  # Left mono camera
+                    dai.CameraBoardSocket.CAM_A   # RGB camera
                 )
                 print("Left to RGB extrinsics:")
                 print(extrinsics)
@@ -86,17 +82,14 @@ def get_pixel_intrinsics():
             
             # Method 1: Direct intrinsics
             intrinsics = calib_data.getCameraIntrinsics(
-                dai.CameraBoardSocket.LEFT, 
+                dai.CameraBoardSocket.CAM_B,  # Left mono camera
                 dai.MonoCameraProperties.SensorResolution.THE_400_P
             )
             
-            # Method 2: Get the actual resolution from camera
-            resolution = calib_data.getCameraResolution(
-                dai.CameraBoardSocket.LEFT, 
-                dai.MonoCameraProperties.SensorResolution.THE_400_P
-            )
-            width, height = resolution
-            print(f"Camera reports resolution: {width}x{height}")
+            # Method 2: Use standard 400P resolution (640x400)
+            # Since getCameraResolution doesn't exist, use known values
+            width, height = 640, 400  # Standard 400P resolution
+            print(f"Using standard 400P resolution: {width}x{height}")
             
             print(f"Image dimensions: {width}x{height}")
             print(f"Raw intrinsics fx: {intrinsics[0][0]:.6f}")
