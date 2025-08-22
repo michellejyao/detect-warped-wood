@@ -31,7 +31,10 @@ CLIPSEG_MODEL = "CIDAS/clipseg-rd64-refined"
 SEGMENTATION_THRESHOLD = 0.5  # Threshold for binary mask (0.0 to 1.0)
 
 # Deviation analysis configuration
-DEVIATION_THRESHOLD = 0.005  # meters - threshold for determining if wood is warped
+DEVIATION_THRESHOLD = 0.001  # meters - threshold for determining if wood is warped
+
+TEXT_OR_IMAGE = True
+TEXT_PROMPT = "one brown, curvy cardboard"
 
 # Camera socket mapping (new naming convention)
 CAMERA_SOCKETS = {

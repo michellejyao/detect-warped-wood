@@ -7,7 +7,8 @@ import time
 import warnings
 from constants import (
     RGB_IMAGE_PATH, WOOD_REFERENCE_PATH, WOOD_PANEL_MASK_PATH, 
-    WOOD_PANEL_DEPTH_PATH, DEPTH_MAP_PATH, CLIPSEG_MODEL, SEGMENTATION_THRESHOLD
+    WOOD_PANEL_DEPTH_PATH, DEPTH_MAP_PATH, CLIPSEG_MODEL, SEGMENTATION_THRESHOLD,
+    TEXT_OR_IMAGE, TEXT_PROMPT
 )
 
 # Suppress CLIPSeg processor warnings
@@ -39,8 +40,8 @@ except Exception as e:
     exit(1)
 
 # Configuration
-use_text_prompt = False  # Switch to text prompt as it's more reliable
-text_prompt = "one connected, thin, brown cardboard"
+use_text_prompt = TEXT_OR_IMAGE  # Switch to text prompt as it's more reliable
+text_prompt = TEXT_PROMPT
 
 print(f"\n3. Running segmentation...")
 if use_text_prompt:
