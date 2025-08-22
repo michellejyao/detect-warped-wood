@@ -25,6 +25,13 @@ def get_camera_intrinsics():
                 dai.MonoCameraProperties.SensorResolution.THE_400_P
             )
             
+            # Also get the camera resolution to verify
+            resolution = calib_data.getCameraResolution(
+                dai.CameraBoardSocket.LEFT, 
+                dai.MonoCameraProperties.SensorResolution.THE_400_P
+            )
+            print(f"Camera resolution: {resolution}")
+            
             # Extract the values
             fx = intrinsics[0][0]
             fy = intrinsics[1][1]
